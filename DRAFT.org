@@ -1,0 +1,7 @@
+#+title: DRAFT
+
+1. check if doom occurs.
+2. If doom, use doom script
+   1. else use regular extract
+      add option to edit both doomscript location, is doom or not, and init file
+* TODO refactor; use values instead of pointers
