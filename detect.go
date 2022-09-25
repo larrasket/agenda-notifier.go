@@ -22,8 +22,8 @@ func isPossible(s *[]string) (bool, *string) {
 	return false, nil
 }
 
-// IsIntialized checks if the package is intialized
-func IsIntialized() bool {
-	_, err := os.Stat(ConfigDirDef)
-	return err != nil
+// IsInitialized checks if the package is intialized
+func IsInitialized() bool {
+	_, err := os.Stat(ConfigFileLoc)
+	return err == nil
 }

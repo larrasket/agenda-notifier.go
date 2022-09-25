@@ -1,27 +1,46 @@
 package main
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
-	"os"
+	"os/exec"
 )
 
-// import (
-// 	"fmt"
-// )
-
 func main() {
-	if !IsIntialized() {
+	if !IsInitialized() {
 		_, err := InitConfig()
 		if err != nil {
-			fmt.Println(WriteConfError)
+			fmt.Println(WriteConfErr)
 			return
 		}
 	}
+	config, err := ReadConfig()
+	if err != nil {
+		fmt.Println(ReadConfErr)
+		return
+	}
 
-	config, err := readconfig()
+	if config.Doom {
+		data, err := exec.Command(config.DoomScript, ExportScriptLoc).Output()
+		if err != nil && errors.Is(err, &exec.ExitError{}) {
+			fmt.Println(ReadDataErr)
+			return
+		}
 
-}
+		start := bytes.Index(data, []byte(AgendaStart))
+		end := bytes.Index(data, []byte(AgendaEnd))
+		//fmt.Println(string())
 
-func readconfig() (*config, *error) {
-	configFile, err := os.ReadFile(ConfigDirDef)
+		coming, err := ComingEntity(data[start+len(AgendaStart) : end])
+		if err != nil {
+			fmt.Println(ReadDataErr)
+			return
+		}
+
+		fmt.Println(coming.Name)
+	} else {
+
+	}
+
 }
