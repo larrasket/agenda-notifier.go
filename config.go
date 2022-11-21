@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Config Type to generate a configuration file.
@@ -58,11 +59,11 @@ func InitConfig() (doom bool, err error) {
 	mod := os.FileMode(0777)
 	err = os.Mkdir(ConfigDir, mod)
 	err = os.WriteFile(ConfigFileLoc, conf, mod)
-	err = os.WriteFile(ExportScriptLoc, MakeScript(doom, *loc), mod)
+	err = os.WriteFile(ExportScriptLoc, makeScript(doom, *loc), mod)
 	return
 }
 
-func MakeScript(doom bool, loc string) []byte {
+func makeScript(doom bool, loc string) []byte {
 	if doom {
 		return []byte(DoomExporter)
 	} else {

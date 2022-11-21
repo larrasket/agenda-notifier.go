@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"os/exec"
 )
@@ -20,27 +19,20 @@ func main() {
 		fmt.Println(ReadConfErr)
 		return
 	}
-
 	if config.Doom {
 		data, err := exec.Command(config.DoomScript, ExportScriptLoc).Output()
-		if err != nil && errors.Is(err, &exec.ExitError{}) {
+		if err != nil /* && errors.Is(err, &exec.ExitError{})  */ {
 			fmt.Println(ReadDataErr)
 			return
 		}
-
 		start := bytes.Index(data, []byte(AgendaStart))
 		end := bytes.Index(data, []byte(AgendaEnd))
-		//fmt.Println(string())
-
-		coming, err := ComingEntity(data[start+len(AgendaStart) : end])
+		data = data[start+len(AgendaStart) : end]
+		coming, err := ComingEntity(data)
 		if err != nil {
 			fmt.Println(ReadDataErr)
 			return
 		}
-
 		fmt.Println(coming.Name)
-	} else {
-
 	}
-
 }

@@ -5,6 +5,6 @@ import (
 )
 
 type Entity struct {
-	Type, Name string
-	Time       time.Time
+	Type, Name, Label string
+	Time              time.Time
 }

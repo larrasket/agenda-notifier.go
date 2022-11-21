@@ -73,6 +73,6 @@ const EmacsExporter = `(load-file "%s")
 var ErrNotFound = errors.New(notFound)
 var ErrNoUpcomming = errors.New(noncomming)
 
-const timeFormat = "15:04"
+const timeFormat = "2006-01-02_15:04"
 
 // TODO emacs script

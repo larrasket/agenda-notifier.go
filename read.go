@@ -12,47 +12,42 @@ func ComingEntity(data []byte) (t Entity, err error) {
 	if err != nil {
 		return
 	}
-	now, _ := time.Parse(timeFormat, time.Now().Format(timeFormat))
+	now := time.Now()
 	for _, entity := range entities {
 		if len(entity[0]) == 0 {
 			continue
 		}
-		entitytime, xrr := extractTime(entity)
-		if xrr == nil && entitytime.After(now) {
-			t.Type = entity[0]
+		clock, xrr := extractTime(entity)
+		t.Type = entity[3]
+		if xrr == nil && clock.After(now) {
+			t.Label = entity[0]
 			t.Name = entity[1]
-			t.Time = entitytime
+			t.Time = clock
 			return
 		}
+		// TODO Handle Err
 	}
 	err = ErrNoUpcomming
 	return
 }
 
 func extractTime(entity []string) (time.Time, error) {
-	stime := entity[6]
-	if strings.ContainsRune(stime, '-') {
-		splits := strings.Split(stime, "-")
-		stime = splits[0]
-	} else if strings.ContainsRune(stime, '.') {
-		splits := strings.Split(stime, ".")
-		stime = splits[0]
+	hours, days := entity[6], entity[5]
+	if strings.ContainsRune(hours, '-') {
+		splits := strings.Split(hours, "-")
+		hours = splits[0]
+	} else if strings.ContainsRune(hours, '.') {
+		splits := strings.Split(hours, ".")
+		hours = splits[0]
 	}
-	t, err := time.Parse(timeFormat, stime)
+	fullDate := days + "_" + hours
+	t, err := time.Parse(timeFormat, fullDate)
 	return t, err
 }
 
 func readData(data []byte) ([][]string, error) {
-
 	r := csv.NewReader(bytes.NewReader(data))
-
-	// skip first line
-	//if _, err := r.Read(); err != nil {
-	//	return [][]string{}, err
-	//}
-
 	records, err := r.ReadAll()
-
 	if err != nil {
 		return [][]string{}, err
 	}
