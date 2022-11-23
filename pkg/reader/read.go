@@ -1,4 +1,4 @@
-package main
+package reader
 
 import (
 	"bytes"
@@ -7,30 +7,53 @@ import (
 	"time"
 )
 
-func ComingEntity(data []byte) (t Entity, err error) {
+type Entity struct {
+	Type, Name, Label string
+	Time              time.Time
+}
+
+func InitializeReader() (*Config, error) {
+	if !IsInitialized() {
+		_, err := InitConfig()
+		if err != nil {
+			return nil, err
+		}
+	}
+	config, err := ReadConfig()
+	if err != nil {
+		return nil, err
+	}
+	return &config, nil
+}
+
+func ComingEntity(data []byte) (*Entity, error) {
 	entities, err := readData(data)
 	if err != nil {
-		return
+		return nil, err
 	}
-	now := time.Now()
+	t := Entity{}
+	nows := time.Now().Format(TimeFormat)
+	now, _ := time.Parse(TimeFormat, nows)
 	for _, entity := range entities {
-		if len(entity[0]) == 0 {
+		if len(entity[0]) == 0 || len(entity[6]) == 0 {
 			continue
 		}
-		clock, xrr := extractTime(entity)
+		clock, err := extractTime(entity)
 		t.Type = entity[3]
-		if xrr == nil && clock.After(now) {
+
+		if err == nil && now.Before(clock) {
 			t.Label = entity[0]
 			t.Name = entity[1]
 			t.Time = clock
-			return
+			return &t, err
+		} else if err != nil {
+			return nil, err
 		}
-		// TODO Handle Err
 	}
-	err = ErrNoUpcomming
-	return
+	return nil, NoEntityErr
 }
 
+// TODO Skip done/killed entities
 func extractTime(entity []string) (time.Time, error) {
 	hours, days := entity[6], entity[5]
 	if strings.ContainsRune(hours, '-') {
@@ -41,7 +64,7 @@ func extractTime(entity []string) (time.Time, error) {
 		hours = splits[0]
 	}
 	fullDate := days + "_" + hours
-	t, err := time.Parse(timeFormat, fullDate)
+	t, err := time.Parse(TimeFormat, fullDate)
 	return t, err
 }
 

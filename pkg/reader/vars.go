@@ -1,9 +1,11 @@
-package main
+package reader
 
 import (
 	"errors"
 	"os"
 )
+
+var NoEntityErr error = errors.New("No upcomming entities")
 
 // home directory
 var home = func() string {
@@ -22,20 +24,10 @@ var (
 // configuration locations
 var (
 	ConfigDir       = home + "/.config/agenda-notification"
+	LogFile         = ConfigDir + "/log.log"
 	ConfigFileLoc   = ConfigDir + "/config.yaml"
 	ExportScriptLoc = ConfigDir + "/exportScript"
-)
-
-// user cli messages
-var (
-	doomFoundErr = "[Inf]Did not find doom emacs"
-	emacsFound   = "[Inf]Found emacs at "
-	FoundErr     = "[ERR]Couldn't find doom nor emacs, please define it at " + ConfigDir // NEEDS PARAMS
-	WriteConfErr = "[ERR]Couldn't write config at " + ConfigDir                          // NEEDS PARAMS
-	ReadConfErr  = "[ERR]Couldn't read config file"
-	ReadDataErr  = "[ERR]Couldn't reed agenda data"
-	notFound     = "not found"
-	noncomming   = "no upcoming entities"
+	IconLoc         = ConfigDir + "/icon.png"
 )
 
 // PossibleEmacsConfigLocations contains directories to check for emacs init files
@@ -70,9 +62,6 @@ const EmacsExporter = `(load-file "%s")
 (org-batch-agenda-csv "a")
 (print "ENDAGENDA") `
 
-var ErrNotFound = errors.New(notFound)
-var ErrNoUpcomming = errors.New(noncomming)
-
-const timeFormat = "2006-01-02_15:04"
+const TimeFormat = "2006-01-02_15:04"
 
 // TODO emacs script
