@@ -17,7 +17,7 @@ var home = func() string {
 var (
 	EmacsDirDef           = home + "/.emacs.d"
 	ScanIntDef            = 300
-	BeforeNotificationDef = 30
+	BeforeNotificationDef = 5
 	NotifyCommandDef      = "notify-send"
 )
 
