@@ -46,22 +46,25 @@ var PossibleDoomConfigLocations = []string{
 
 // Agenda outputs flags, this helps to avoid reading warnings from emacs
 const (
-	AgendaStart = "\"AGENDASTART\""
+	AgendaStart = "\"STARTAGENDA\""
 	AgendaEnd   = "\"ENDAGENDA\""
 )
 
 // DoomExporter is a doomscript file which exports agenda informations in case of doom emacs
 const DoomExporter = `#!/usr/bin/env doomscript
 (require 'doom-start)
-(print "AGENDASTART")
-(org-batch-agenda-csv "a")
-(print "ENDAGENDA") `
-
-const EmacsExporter = `(load-file "%s")
+(let ((inhibit-message t))
 (print "STARTAGENDA")
 (org-batch-agenda-csv "a")
-(print "ENDAGENDA") `
+(print "ENDAGENDA"))
+`
+
+const EmacsExporter = `
+(let ((inhibit-message t))
+(message "Listen to me, you!")
+(load-file "/home/ghd/.emacs.d/init.el")
+(print "STARTAGENDA")
+(org-batch-agenda-csv "a")
+(print "ENDAGENDA"))`
 
 const TimeFormat = "2006-01-02_15:04"
-
-// TODO emacs script
