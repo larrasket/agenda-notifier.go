@@ -23,7 +23,7 @@ Now ~notifier~ should be located ~$GOPATH/bin/~ (Probably ~~/go/bin~).
 Auto start the ~notifier~ command with your system, there are many ways to do so, [[https://wiki.archlinux.org/title/autostarting][this]] page
 could be useful.
 ** Configuration
-The configuration file should be found at ~~/.config/agenda-notification/config.yaml~, and
+The configuration file should be found at ~~/.config/notifier.go/config.yaml~, and
 it is generated automatically.
 | Field                | Function.                                                         |
 | ~doom~               | Whether you are using Emacs or Doom Emacs[fn:3].                  |
