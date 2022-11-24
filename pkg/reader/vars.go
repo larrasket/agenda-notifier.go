@@ -23,7 +23,7 @@ var (
 
 // configuration locations
 var (
-	ConfigDir       = home + "/.config/agenda-notification"
+	ConfigDir       = home + "/.config/notifier.go"
 	LogFile         = ConfigDir + "/log.log"
 	ConfigFileLoc   = ConfigDir + "/config.yaml"
 	ExportScriptLoc = ConfigDir + "/exportScript"
