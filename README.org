@@ -42,5 +42,7 @@ Because:
 * Footnotes
 
 [fn:3] Doom Emacs does not have an ~init.el~, so it requires a different approach. See [[https://github.com/doomemacs/doomemacs/issues/6494][#6494]]
+
 [fn:2] Elisp capability of using threads is often described as 'limited'.
+
 [fn:1] Nothreading. EmacsWiki. Retrieved November 23, 2022, from https://www.emacswiki.org/emacs/NoThreading
