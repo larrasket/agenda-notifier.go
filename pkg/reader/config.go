@@ -11,11 +11,11 @@ import (
 // Config Type to generate a configuration file.
 type Config struct {
 	Doom               bool   `yaml:"doom"`               // whether user uses doom or not.
-	EmacsLoc           string `yaml:"emacsDir"`           // emacs inti location                   (if !doom)
+	EmacsLoc           string `yaml:"emacsInitFile"`      // emacs inti location                   (if !doom)
 	ScanInt            int    `yaml:"scanInt"`            // scan interval.                        (in second)
 	BeforeNotification int    `yaml:"beforeNotification"` // time before notifing                  (in second)
-	NotifyCommand      string `yaml:"notifyCommand"`      // command to use for sending notification
-	DoomScript         string `yaml:"doomScriptLoc"`      // doomscript binary location
+	// NotifyCommand      string `yaml:"notifyCommand"`      // command to use for sending notification
+	DoomScriptLoc string `yaml:"doomScriptLoc"` // doomscript binary location
 }
 
 // MakeConfig returns default configuration data
@@ -25,7 +25,7 @@ func MakeConfig(doom bool, init string) Config {
 		init,
 		ScanIntDef,
 		BeforeNotificationDef,
-		NotifyCommandDef,
+		// NotifyCommandDef,
 		EmacsDirDef + "/bin/doomscript",
 	}
 	return conf
@@ -111,7 +111,7 @@ func IsEmacs() *string {
 func isPossible(s *[]string) *string {
 	for _, loc := range *s {
 		_, err := os.Stat(loc)
-		if err != nil {
+		if err == nil {
 			return &loc
 		}
 	}
