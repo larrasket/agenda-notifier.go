@@ -17,13 +17,13 @@ var home = func() string {
 var (
 	EmacsDirDef           = home + "/.emacs.d"
 	ScanIntDef            = 300
-	BeforeNotificationDef = 30
+	BeforeNotificationDef = 5
 	NotifyCommandDef      = "notify-send"
 )
 
 // configuration locations
 var (
-	ConfigDir       = home + "/.config/agenda-notification"
+	ConfigDir       = home + "/.config/notifier.go"
 	LogFile         = ConfigDir + "/log.log"
 	ConfigFileLoc   = ConfigDir + "/config.yaml"
 	ExportScriptLoc = ConfigDir + "/exportScript"
