@@ -22,7 +22,7 @@ func ListenAndServe(config *Config) {
 	cmd := exec.Command(config.DoomScriptLoc, ExportScriptLoc)
 	e := Entity{}
 	if !config.Doom {
-		cmd = exec.Command("emacs", "-script", fmt.Sprintf(ExportScriptLoc, config.EmacsLoc))
+		cmd = exec.Command("emacs", "-script", ExportScriptLoc)
 	}
 	scanInt := time.NewTicker(time.Duration(config.ScanInt) * time.Second)
 	defer scanInt.Stop()
