@@ -21,10 +21,10 @@ func NewLogger() (l Logger) {
 	if err != nil {
 		fmt.Printf("Error opening file: %s, logs will not be recorded in the filesystem\n", err.Error())
 		l.Error = func(lerr error) {
-			log.Println(fmt.Sprintf("Error:\t %s \n", lerr.Error()))
+			log.Println(lerr.Error())
 		}
 		l.Fatal = func(lerr string) {
-			log.Fatal(fmt.Sprintf("Fatal:\t %s", lerr))
+			log.Fatal(lerr)
 		}
 		l.Info = func(info string) {
 			log.Println(info)
@@ -37,7 +37,7 @@ func NewLogger() (l Logger) {
 		l.errorLogger.Println(lerr)
 	}
 	l.Fatal = func(lerr string) {
-		l.errorLogger.Fatal(err)
+		l.errorLogger.Fatal(lerr)
 	}
 	l.Info = func(info string) {
 		l.infoLogger.Println(info)

@@ -24,7 +24,7 @@ var (
 // configuration locations
 var (
 	ConfigDir       = home + "/.config/notifier.go"
-	LogFile         = ConfigDir + "/log.log"
+	LogFile         = ConfigDir + "/notifier.log"
 	ConfigFileLoc   = ConfigDir + "/config.yaml"
 	ExportScriptLoc = ConfigDir + "/exportScript"
 	IconLoc         = ConfigDir + "/icon.png"
