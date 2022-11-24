@@ -11,7 +11,7 @@ import (
 // Config Type to generate a configuration file.
 type Config struct {
 	Doom               bool   `yaml:"doom"`               // whether user uses doom or not.
-	EmacsLoc           string `yaml:"emacsInitFile"`      // emacs inti location                   (if !doom)
+	EmacsLoc           string `yaml:"emacsInitFile"`      // emacs init.el location                (if !doom)
 	ScanInt            int    `yaml:"scanInt"`            // scan interval.                        (in second)
 	BeforeNotification int    `yaml:"beforeNotification"` // time before notifing                  (in second)
 	// NotifyCommand      string `yaml:"notifyCommand"`      // command to use for sending notification

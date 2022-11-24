@@ -62,7 +62,7 @@ const DoomExporter = `#!/usr/bin/env doomscript
 const EmacsExporter = `
 (let ((inhibit-message t))
 (message "Listen to me, you!")
-(load-file "/home/ghd/.emacs.d/init.el")
+(load-file "%s")
 (print "STARTAGENDA")
 (org-batch-agenda-csv "a")
 (print "ENDAGENDA"))`
