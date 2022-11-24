@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"os/exec"
+	"time"
+
 	"github.com/0xAX/notificator"
 	"github.com/salehmu/notifier.go/internal/messages"
 	"github.com/salehmu/notifier.go/pkg/reader"
 	. "github.com/salehmu/notifier.go/pkg/reader"
-	"os/exec"
-	"time"
 )
 
 func ListenAndServe(config *Config) {
@@ -28,7 +29,7 @@ func ListenAndServe(config *Config) {
 	q := make(chan bool)
 	defer close(q)
 	go func() {
-		err := Notify(e, q, notify)
+		err := Notify(e, q, notify, config.BeforeNotification)
 		if err != nil {
 			logger.Error(err)
 		}
@@ -54,7 +55,7 @@ func ListenAndServe(config *Config) {
 			q <- true
 			e = *ne
 			go func() {
-				err := Notify(e, q, notify)
+				err := Notify(e, q, notify, config.BeforeNotification)
 				if err != nil {
 					logger.Error(err)
 				}
@@ -65,10 +66,17 @@ func ListenAndServe(config *Config) {
 
 }
 
-func Notify(e Entity, q <-chan bool, notify *notificator.Notificator) error {
+func Notify(e Entity, q <-chan bool, notify *notificator.Notificator, timeBefore int) error {
 	now, err := time.Parse(TimeFormat, time.Now().Format(reader.TimeFormat))
 	t := e.Time.Sub(now)
 	coming := time.After(t)
+
+	//calc time before
+	re := time.Duration(timeBefore) * time.Minute * -1
+	tb := e.Time.Add(re)
+	tbt := tb.Sub(now)
+	comingb := time.After(tbt)
+
 	sent := false
 	for {
 		select {
@@ -84,6 +92,9 @@ func Notify(e Entity, q <-chan bool, notify *notificator.Notificator) error {
 		case <-coming:
 			err = notify.Push(e.Type, e.Name, IconLoc, notificator.UR_NORMAL)
 			sent = true
+		case <-comingb:
+			msg := fmt.Sprintf("After %d mintues: %s", timeBefore, e.Name)
+			err = notify.Push(e.Type, msg, IconLoc, notificator.UR_NORMAL)
 		}
 	}
 }
