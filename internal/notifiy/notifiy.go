@@ -18,10 +18,10 @@ func ListenAndServe(config *Config) {
 		DefaultIcon: IconLoc,
 		AppName:     "Emacs",
 	})
-	cmd := exec.Command(config.DoomScript, ExportScriptLoc)
+	cmd := exec.Command(config.DoomScriptLoc, ExportScriptLoc)
 	e := Entity{}
 	if !config.Doom {
-		cmd = exec.Command("emacs", "-batch", "-l", config.EmacsLoc, "-eval", reader.EmacsExporter)
+		cmd = exec.Command("emacs", "-script", ExportScriptLoc)
 	}
 	scanInt := time.NewTicker(time.Duration(config.ScanInt) * time.Second)
 	defer scanInt.Stop()
@@ -34,23 +34,22 @@ func ListenAndServe(config *Config) {
 		}
 	}()
 	for ; true; <-scanInt.C {
-		fmt.Println(e)
 		data, err := ExtractData(*cmd)
 		if err != nil {
 			if config.Doom {
-				logger.Fatal(fmt.Sprintf(messages.DoomscriptErr, err))
+				logger.Fatal(fmt.Sprintf(messages.DoomscriptErr, err.Error()))
 			} else {
-				logger.Fatal(fmt.Sprintf("Couldn't extract agenda from emacs: %s", err))
+				logger.Fatal(fmt.Sprintf("Couldn't extract agenda from emacs: %s", err.Error()))
 			}
 		}
 		ne, err := reader.ComingEntity(data)
 		if err != nil && !errors.Is(err, NoEntityErr) {
-			logger.Fatal(fmt.Sprintf("Something wrong happend in reading the upcmming entity : %s", err))
+			logger.Fatal(fmt.Sprintf("Something wrong happend in reading the upcmming entity : %s", err.Error()))
 		} else if errors.Is(err, NoEntityErr) {
-
 			logger.Info("No upcoming entity")
 			continue
 		}
+		fmt.Println(ne)
 		if *ne != e {
 			q <- true
 			e = *ne
@@ -90,11 +89,17 @@ func Notify(e Entity, q <-chan bool, notify *notificator.Notificator) error {
 }
 func ExtractData(cmd exec.Cmd) ([]byte, error) {
 	data, err := cmd.Output()
-	if err != nil {
-		return nil, err
-	}
 	start := bytes.Index(data, []byte(AgendaStart))
 	end := bytes.Index(data, []byte(AgendaEnd))
+	if err != nil && (start == -1 || end == -1) {
+		return nil, err
+	}
+	if end == -1 {
+		return nil, errors.New("couldn't reach end of csv file")
+	}
+	if start == -1 {
+		return nil, errors.New("couldn't reach end of csv file")
+	}
 	data = (data)[start+len(AgendaStart) : end]
 	return data, nil
 }
