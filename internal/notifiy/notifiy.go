@@ -51,7 +51,7 @@ func ListenAndServe(config *Config) {
 			continue
 		}
 		fmt.Println(ne)
-		if *ne != e {
+		if ne.Name != e.Name {
 			q <- true
 			e = *ne
 			go func() {
