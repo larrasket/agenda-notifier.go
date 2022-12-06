@@ -8,13 +8,18 @@ editor GNU/Emacs.
 + Actually works.
 + Emacs independent, so you will get notified even if Emacs is not running by you.
 + Reminder notification before an event.
+* Screenshots
+[[file:examples/reminder.png]]
+
+[[file:examples/imedite.png]]
+
 * Requirements
 + The ~notify-send~ command. (preinstalled in most GNU/Linux distributions)
 + It uses ~kdialog~ in the case of [[https://kde.org/][KDE]].
 * Installation
 First [[https://go.dev/doc/install][install go]] and make sure that go could be found in your ~$PATH~. Then run:
 #+begin_src shell
-go install github.com/salehmu/notifier.go/notifier
+go install github.com/salehmu/notifier.go/notifier@latest
 #+end_src
 
 Now ~notifier~ should be located at ~$GOPATH/bin/~ (Probably ~/go/bin~).
