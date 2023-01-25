@@ -67,4 +67,4 @@ const EmacsExporter = `
 (org-batch-agenda-csv "a")
 (print "ENDAGENDA"))`
 
-const TimeFormat = "2006-01-2_15:04"
+const TimeFormat = "2006-1-2_15:04"
