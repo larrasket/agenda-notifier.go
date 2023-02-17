@@ -55,15 +55,16 @@ const DoomExporter = `#!/usr/bin/env doomscript
 (require 'doom-start)
 (let ((inhibit-message t))
 (print "STARTAGENDA")
+(setq org-agenda-start-with-log-mode nil)
 (org-batch-agenda-csv "a")
 (print "ENDAGENDA"))
 `
 
 const EmacsExporter = `
 (let ((inhibit-message t))
-(message "Listen to me, you!")
 (load-file "%s")
 (print "STARTAGENDA")
+(setq org-agenda-start-with-log-mode nil)
 (org-batch-agenda-csv "a")
 (print "ENDAGENDA"))`
 
