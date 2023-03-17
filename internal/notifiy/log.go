@@ -1,9 +1,11 @@
-package reader
+package notifiy
 
 import (
 	"fmt"
 	"log"
 	"os"
+
+	. "github.com/salehmu/notifier.go/pkg/reader"
 )
 
 type Logger struct {
@@ -14,12 +16,20 @@ type Logger struct {
 	Info        func(info string)
 }
 
-func NewLogger() (l Logger) {
+var L *Logger
+
+func init() {
+	L = newLogger()
+}
+func newLogger() *Logger {
 	mod := os.FileMode(0777)
+	var l Logger
 	_ = os.MkdirAll(ConfigDir, mod)
-	openLogfile, err := os.OpenFile(LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	openLogfile, err := os.OpenFile(LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND,
+		0666)
 	if err != nil {
-		fmt.Printf("Error opening file: %s, logs will not be recorded in the filesystem\n", err.Error())
+		fmt.Printf("Error opening %s: %s, logs will not be saved \n", LogFile,
+			err.Error())
 		l.Error = func(lerr error) {
 			log.Println(lerr.Error())
 		}
@@ -29,10 +39,10 @@ func NewLogger() (l Logger) {
 		l.Info = func(info string) {
 			log.Println(info)
 		}
-		return l
+		return &l
 	}
-	l.errorLogger = log.New(openLogfile, "Info:\t", log.Ldate|log.Ltime|log.Lshortfile)
-	l.infoLogger = log.New(openLogfile, "Error:\t", log.Ldate|log.Ltime|log.Lshortfile)
+	l.errorLogger = log.New(openLogfile, "Info:\t", log.Ldate|log.Ltime)
+	l.infoLogger = log.New(openLogfile, "Error:\t", log.Ldate|log.Ltime)
 	l.Error = func(lerr error) {
 		l.errorLogger.Println(lerr)
 	}
@@ -42,5 +52,5 @@ func NewLogger() (l Logger) {
 	l.Info = func(info string) {
 		l.infoLogger.Println(info)
 	}
-	return l
+	return &l
 }

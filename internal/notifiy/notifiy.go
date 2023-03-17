@@ -14,7 +14,6 @@ import (
 )
 
 func ListenAndServe(config *Config) {
-	logger := NewLogger()
 	notify := notificator.New(notificator.Options{
 		DefaultIcon: IconLoc,
 		AppName:     "Emacs",
@@ -31,23 +30,26 @@ func ListenAndServe(config *Config) {
 	go func() {
 		err := Notify(e, q, notify, config.BeforeNotification)
 		if err != nil {
-			logger.Error(err)
+			L.Error(err)
 		}
 	}()
 	for ; true; <-scanInt.C {
 		data, err := ExtractData(*cmd)
 		if err != nil {
 			if config.Doom {
-				logger.Fatal(fmt.Sprintf(messages.DoomscriptErr, err.Error()))
+				L.Fatal(fmt.Sprintf(messages.DoomscriptErr, err.Error()))
 			} else {
-				logger.Fatal(fmt.Sprintf("Couldn't extract agenda from emacs: %s", err.Error()))
+				L.Fatal(fmt.Sprintf("Couldn't extract agenda from emacs: %s",
+					err.Error()))
 			}
 		}
 		ne, err := reader.ComingEntity(data)
 		if err != nil && !errors.Is(err, NoEntityErr) {
-			logger.Fatal(fmt.Sprintf("Something wrong happend in reading the upcmming entity : %s", err.Error()))
+			L.Fatal(fmt.Sprintf(
+				"Something wrong happend in reading the upcmming entity: %s",
+				err.Error()))
 		} else if errors.Is(err, NoEntityErr) {
-			logger.Info("No upcoming entity")
+			L.Info("No upcoming entity")
 			continue
 		}
 		fmt.Println(ne)
@@ -57,7 +59,7 @@ func ListenAndServe(config *Config) {
 			go func() {
 				err := Notify(e, q, notify, config.BeforeNotification)
 				if err != nil {
-					logger.Error(err)
+					L.Error(err)
 				}
 			}()
 		}

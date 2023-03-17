@@ -23,14 +23,15 @@ var (
 
 // configuration locations
 var (
-	ConfigDir       = home + "/.config/notifier.go"
-	LogFile         = ConfigDir + "/notifier.log"
+	ConfigDir       = home + "/.config/ang"
+	LogFile         = home + "/.ang.log"
 	ConfigFileLoc   = ConfigDir + "/config.yaml"
 	ExportScriptLoc = ConfigDir + "/exportScript"
 	IconLoc         = ConfigDir + "/icon.png"
 )
 
-// PossibleEmacsConfigLocations contains directories to check for emacs init files
+// PossibleEmacsConfigLocations contains directories to check for emacs init
+// files
 var PossibleEmacsConfigLocations = []string{
 	home + "/.emacs",
 	home + "/.emacs.el",
@@ -50,7 +51,8 @@ const (
 	AgendaEnd   = "\"ENDAGENDA\""
 )
 
-// DoomExporter is a doomscript file which exports agenda informations in case of doom emacs
+// DoomExporter is a doomscript file which exports agenda informations in case
+// of doom emacs
 const DoomExporter = `#!/usr/bin/env doomscript
 (require 'doom-start)
 (let ((inhibit-message t))
