@@ -1,5 +1,5 @@
 #+title: agenda-notifier.go
-
+#+OPTIONS: toc:nil
 -----
 agenda-notifier.̶e̶l̶ go is a basic notification daemon for org-mode agenda, a part of the free software text
 editor GNU/Emacs.
