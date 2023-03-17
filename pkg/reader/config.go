@@ -4,8 +4,9 @@ import (
 	"embed"
 	"errors"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Config Type to generate a configuration file.
@@ -41,33 +42,22 @@ func ReadConfig() (conf Config, err error) {
 	return
 }
 
-func InitConfig() (doom bool, err error) {
+func InitConfig() error {
 	var loc *string
+	var doom bool
 	loc = IsDoom()
 
-	logger := NewLogger()
-
 	if loc == nil {
-		logger.Info("Doom was not found")
 		loc = IsEmacs()
 	} else {
 		doom = true
 	}
 
-	if !doom && loc != nil {
-		logger.Info("Found Emacs at: " + *loc)
-	}
 	if loc == nil {
-		s := "Emacs was not found"
-		logger.Info(s)
-		err = errors.New(s)
-		return
+		return errors.New("Emacs was not found")
 	}
-	err = writeConf(doom, loc)
-	if err != nil {
-		return false, err
-	}
-	return
+
+	return writeConf(doom, loc)
 }
 
 //go:embed icon.png
@@ -116,10 +106,4 @@ func isPossible(s *[]string) *string {
 		}
 	}
 	return nil
-}
-
-// IsInitialized checks if the package is intialized
-func IsInitialized() bool {
-	_, err := os.Stat(ConfigFileLoc)
-	return err == nil
 }

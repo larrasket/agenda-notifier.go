@@ -3,6 +3,7 @@ package reader
 import (
 	"bytes"
 	"encoding/csv"
+	"os"
 	"strings"
 	"time"
 )
@@ -13,9 +14,8 @@ type Entity struct {
 }
 
 func InitializeReader() (*Config, error) {
-	if !IsInitialized() {
-		_, err := InitConfig()
-		if err != nil {
+	if _, err := os.Stat(ConfigFileLoc); err != nil {
+		if err = InitConfig(); err != nil {
 			return nil, err
 		}
 	}
