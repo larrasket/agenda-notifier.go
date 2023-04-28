@@ -15,7 +15,7 @@ editor GNU/Emacs.
 * Installation
 First [[https://go.dev/doc/install][install Go]]. Then run:
 #+begin_src shell
-go install github.com/salehmu/notifier.go/notifier@latest
+go install github.com/larraskt/notifier.go/notifier@latest
 #+end_src
 
 Now ~notifier~ should be located at ~$GOPATH/bin/~ (Probably ~$HOME/go/bin~).

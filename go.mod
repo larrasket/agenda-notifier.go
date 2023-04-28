@@ -1,4 +1,4 @@
-module github.com/salehmu/notifier.go
+module github.com/larrasket/notifier.go
 
 go 1.19
 

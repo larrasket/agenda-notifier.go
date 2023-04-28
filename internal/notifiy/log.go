@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	. "github.com/salehmu/notifier.go/pkg/reader"
+	. "github.com/larrasket/notifier.go/pkg/reader"
 )
 
 type Logger struct {
