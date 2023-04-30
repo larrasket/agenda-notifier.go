@@ -24,14 +24,14 @@ editor GNU/Emacs.
 
 First [install Go](https://go.dev/doc/install). Then run:
 
-    go install github.com/larraskt/agenda-notifier.go/notifier@latest
-
-Now `notifier` should be located at `$GOPATH/bin/` (Probably `$HOME/go/bin`).
+    go install github.com/larraskt/agenda-notifier.go/ang@latest
+    
+Now `ang` should be located at `$GOPATH/bin/` (Probably `$HOME/go/bin`).
 
 
 # Usage
 
-Auto start the `notifier` command with your system, there are many ways to do so, [this](https://wiki.archlinux.org/title/autostarting) page
+Auto start the `ang` command with your system, there are many ways to do so, [this](https://wiki.archlinux.org/title/autostarting) page
 could be useful.
 
 
@@ -71,7 +71,7 @@ Because:
 ![img](examples/imedite.png)
 
 
-# Footnotes
+----
 
 <sup><a id="fn.1" href="#fnr.1">1</a></sup> Nothreading. EmacsWiki. Retrieved November 23, 2022, from <https://www.emacswiki.org/emacs/NoThreading>
 
