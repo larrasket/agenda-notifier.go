@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/0xAX/notificator"
-	"github.com/larrasket/notifier.go/internal/messages"
-	"github.com/larrasket/notifier.go/pkg/reader"
-	. "github.com/larrasket/notifier.go/pkg/reader"
+	"github.com/larrasket/agenda-notifier.go/internal/messages"
+	"github.com/larrasket/agenda-notifier.go/pkg/reader"
+	. "github.com/larrasket/agenda-notifier.go/pkg/reader"
 )
 
 func ListenAndServe(config *Config) {

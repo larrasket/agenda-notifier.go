@@ -1,4 +1,4 @@
-module github.com/larrasket/notifier.go
+module github.com/larrasket/agenda-notifier.go
 
 go 1.19
 

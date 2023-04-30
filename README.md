@@ -24,7 +24,7 @@ editor GNU/Emacs.
 
 First [install Go](https://go.dev/doc/install). Then run:
 
-    go install github.com/larraskt/notifier.go/notifier@latest
+    go install github.com/larraskt/agenda-notifier.go/notifier@latest
 
 Now `notifier` should be located at `$GOPATH/bin/` (Probably `$HOME/go/bin`).
 

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	. "github.com/larrasket/notifier.go/internal/notifiy"
-	. "github.com/larrasket/notifier.go/pkg/reader"
+	. "github.com/larrasket/agenda-notifier.go/internal/notifiy"
+	. "github.com/larrasket/agenda-notifier.go/pkg/reader"
 )
 
 func main() {
