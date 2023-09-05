@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os/exec"
+	"regexp"
+	strings "strings"
 	"time"
 
 	"github.com/0xAX/notificator"
@@ -100,6 +102,29 @@ func Notify(e Entity, q <-chan bool, notify *notificator.Notificator, timeBefore
 		}
 	}
 }
+
+func removeLinesMatchingPattern(input string, pattern string) string {
+	lines := strings.Split(input, "\n")
+	regex := regexp.MustCompile(pattern)
+	var filteredLines []string
+	for _, line := range lines {
+		if !regex.MatchString(line) {
+			filteredLines = append(filteredLines, line)
+		}
+	}
+	result := strings.Join(filteredLines, "\n")
+
+	return result
+}
+
+func filterLines(s string) []byte {
+	pattern := `^\(\d{1,2} \d{1,2} \d{4}\)$`
+	s = removeLinesMatchingPattern(s, pattern)
+	s = strings.Replace(s, "\n\n", "\n", -1)
+
+	return []byte(s)
+}
+
 func ExtractData(cmd exec.Cmd) ([]byte, error) {
 	data, err := cmd.Output()
 	start := bytes.Index(data, []byte(AgendaStart))
@@ -114,5 +139,6 @@ func ExtractData(cmd exec.Cmd) ([]byte, error) {
 		return nil, errors.New("couldn't reach end of csv file")
 	}
 	data = (data)[start+len(AgendaStart) : end]
-	return data, nil
+
+	return filterLines(string(data)), nil
 }
